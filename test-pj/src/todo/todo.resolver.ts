@@ -3,6 +3,7 @@ import { Resolver } from '@nestjs/graphql';
 import { CreateTodoForm } from './create-todo.form';
 import { Todo } from './todo.models';
 import { TodoService } from './todo.service';
+import { UpdateTodoForm } from './update-todo.form';
 
 @Resolver()
 export class TodoResolver {
@@ -20,6 +21,11 @@ export class TodoResolver {
 
     @Mutation((returns) => Todo)
     create(@Args('todo') todo: CreateTodoForm): Todo {
-        return this.todoService.create(todo)
+        return this.todoService.create(todo);
+    }
+
+    @Mutation((returns) => Todo)
+    update(@Args('todo') todo: UpdateTodoForm): Todo {
+        return this.todoService.update(todo);
     }
 }

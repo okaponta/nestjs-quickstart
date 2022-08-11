@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTodoForm } from './create-todo.form';
 import { Todo, TodoStatus } from './todo.models';
 import { v4 } from 'uuid'
+import { UpdateTodoForm } from './update-todo.form';
 
 @Injectable()
 export class TodoService {
@@ -32,5 +33,18 @@ export class TodoService {
         }
         this.todos.push(todo);
         return todo;
+    }
+
+    update(updateTodoForm: UpdateTodoForm): Todo {
+        const target = this.findOneById(updateTodoForm.id);
+        const newTodo = {
+            ...target,
+            status: updateTodoForm.status,
+            updatedAt: new Date(),
+        };
+        this.todos = this.todos.map((todo) =>
+            todo.id === newTodo.id ? newTodo : todo,
+        );
+        return newTodo;
     }
 }
