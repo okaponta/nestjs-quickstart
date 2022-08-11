@@ -1,4 +1,19 @@
+import { Args, ID, Query } from '@nestjs/graphql';
 import { Resolver } from '@nestjs/graphql';
+import { Todo } from './todo.models';
+import { TodoService } from './todo.service';
 
 @Resolver()
-export class TodoResolver {}
+export class TodoResolver {
+    constructor(private todoService: TodoService) { }
+
+    @Query(() => [Todo], { nullable: 'items' })
+    findAll() {
+        return this.todoService.findAll();
+    }
+
+    @Query(() => Todo)
+    findOneById(@Args('id', { type: () => ID }) id: string) {
+        return this.todoService.findOneById(id);
+    }
+}
