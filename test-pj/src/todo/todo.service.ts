@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Todo } from './todo.models';
+import { CreateTodoForm } from './create-todo.form';
+import { Todo, TodoStatus } from './todo.models';
+import { v4 } from 'uuid'
 
 @Injectable()
 export class TodoService {
@@ -17,5 +19,18 @@ export class TodoService {
             throw new NotFoundException();
         }
         return result;
+    }
+
+    create(createTodoForm: CreateTodoForm): Todo {
+        const date: Date = new Date();
+        const todo: Todo = {
+            ...createTodoForm,
+            id: v4(),
+            status: TodoStatus.NEW,
+            createdAt: date,
+            updatedAt: date,
+        }
+        this.todos.push(todo);
+        return todo;
     }
 }

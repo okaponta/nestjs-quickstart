@@ -1,5 +1,6 @@
-import { Args, ID, Query } from '@nestjs/graphql';
+import { Args, ID, Mutation, Query } from '@nestjs/graphql';
 import { Resolver } from '@nestjs/graphql';
+import { CreateTodoForm } from './create-todo.form';
 import { Todo } from './todo.models';
 import { TodoService } from './todo.service';
 
@@ -15,5 +16,10 @@ export class TodoResolver {
     @Query(() => Todo)
     findOneById(@Args('id', { type: () => ID }) id: string) {
         return this.todoService.findOneById(id);
+    }
+
+    @Mutation((returns) => Todo)
+    create(@Args('todo') todo: CreateTodoForm): Todo {
+        return this.todoService.create(todo)
     }
 }
