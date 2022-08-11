@@ -1,6 +1,7 @@
 import { Args, ID, Mutation, Query } from '@nestjs/graphql';
 import { Resolver } from '@nestjs/graphql';
 import { CreateTodoForm } from './create-todo.form';
+import { DeleteTodoForm } from './delete-todo.form';
 import { Todo } from './todo.models';
 import { TodoService } from './todo.service';
 import { UpdateTodoForm } from './update-todo.form';
@@ -27,5 +28,10 @@ export class TodoResolver {
     @Mutation((returns) => Todo)
     update(@Args('todo') todo: UpdateTodoForm): Todo {
         return this.todoService.update(todo);
+    }
+
+    @Mutation((returns) => Todo)
+    delete(@Args('todo') todo: DeleteTodoForm): Todo {
+        return this.todoService.delete(todo)
     }
 }
